@@ -241,7 +241,8 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 
 float* getVetorOutdegree(Grafo *grafo)
 {
-
+  float *out_degree;
+  out_degree = malloc(sizeof(float)*grafo->tamanho);
 
 
 
@@ -257,13 +258,14 @@ float* getVetorOutdegree(Grafo *grafo)
   printf("i: %d : %f\n",i,vetorSaida[i]);
 }
 */
-return vetorSaida;
+return out_degree;
 }
 
 float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
   float out_degree[],int vertice,float dumping_factor)
 {
-  float soma=0;
+
+  float pageRank=0;
 
 
 
@@ -273,8 +275,7 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
 
 
 
-
-  return soma;
+  return pageRank;
 }
 
 void CalculaPageRank(Grafo*grafo,float dumping_factor)
@@ -312,6 +313,15 @@ int main()
   char arquivo[] = "grafo.txt";
   obtemVertices(&grafo,arquivo);
   criaMatrizAdjacencia(&grafo,arquivo);
+
+  /* Testa a getVetorOutdegree*/
+  float *out_degree = malloc(sizeof(float)*grafo.tamanho);
+  out_degree = getVetorOutdegree(&grafo);
+  /* Testa a CalculaPageRankVertice*/
+  float *pagerank = malloc(sizeof(float)*grafo.tamanho);
+//  CalculaPageRankVertice(&grafo,page_rank,out_degree[],vertice,dumping_factor);
+
+
   CalculaPageRank(&grafo,0.85);
   //  imprimeTopKPageRank(&grafo,20);
 }
