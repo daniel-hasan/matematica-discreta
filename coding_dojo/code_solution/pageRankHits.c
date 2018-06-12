@@ -132,7 +132,7 @@ void obtemVertices(Grafo* grafo,char arquivo[])
   char vertices_auxiliar[2][400];
 
   /* Leitura: Se A ganhou de B, há uma aresta de B para A*/
-int linha = 0;
+  int linha = 0;
   while(!feof(arq)) /*Enquanto não encontrar o fim do arquivo..*/
   {
     fgets(palavra,400, arq);  /*Pega a linha inteira e armazena na string auxiliar nome*/
@@ -151,7 +151,7 @@ int linha = 0;
     sprintf(vertices_auxiliar[0], "%s" ,palavra1);
     sprintf(vertices_auxiliar[1], "%s" ,palavra2);
     if(linha%1000==0){
-	printf("Lendo linha: %d\n",linha);
+      printf("Lendo linha: %d\n",linha);
     }
     for (k=0;k<2;k++)
     {
@@ -163,7 +163,7 @@ int linha = 0;
         qsort(nome_vertices, j, sizeof(char *), cmp);
       }
     }
-	linha++;
+    linha++;
   }
   vertices = malloc(sizeof(Vertice)*j);
   /*Fecha o arquivo após as operações*/
@@ -271,83 +271,83 @@ return out_degree;
 
 float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
   float out_degree[],int vertice,float dumping_factor)
-{
-  /* Função auxiliar ao CalculaPageRank que irá calcular o Page Rank para cada vértice */
-  int i;
-  float pageRank=0;
-
-  for(i=0; i<grafo->tamanho; i++)
   {
-    if(grafo->matrizadj[i][vertice]==1)
+    /* Função auxiliar ao CalculaPageRank que irá calcular o Page Rank para cada vértice */
+    int i;
+    float pageRank=0;
+
+    for(i=0; i<grafo->tamanho; i++)
     {
-      pageRank += page_rank[i]/out_degree[i]; /*Soma o pagerank de cada vértice
-      e divide pelo out degre */
+      if(grafo->matrizadj[i][vertice]==1)
+      {
+        pageRank += page_rank[i]/out_degree[i]; /*Soma o pagerank de cada vértice
+        e divide pelo out degre */
+      }
+    }
+
+    pageRank = pageRank*dumping_factor + (1-dumping_factor); /*Multiplica a soma encontrada pelo dumping factor*/
+    return pageRank;
+  }
+
+  void CalculaPageRank(Grafo*grafo,float dumping_factor)
+  {
+    /* Função que irá calcular o Page Rank de todos os vértices com o auxílio
+    da função auxiliar e irá normalizar os resultados até atingirem a condição
+    de parada somaDifPR <=0.1 */
+    int i,vertice;
+    float *vetorPR;
+    float *vetorPR_atual;
+    vetorPR = malloc(sizeof(int)*grafo->tamanho);
+
+    vetorPR_atual = malloc(sizeof(int)*grafo->tamanho);
+
+    float *out_degree;
+    out_degree = malloc(sizeof(float)*grafo->tamanho);
+
+    out_degree = getVetorOutdegree(&(*grafo));
+
+
+    for(i=0;i<grafo->tamanho;i++)
+    {
+      vetorPR[i] = 1-dumping_factor; //inicializa o vetor com 0
+    }
+    float somaDifPR =0;
+    do
+    {
+
+      for(vertice=0;vertice<grafo->tamanho;vertice++) //para cada vertice associado a linha analisada..
+      {
+        vetorPR_atual[vertice] = CalculaPageRankVertice(&(*grafo),vetorPR,out_degree,vertice,dumping_factor);
+
+      }
+
+      vetorPR_atual = normalizaVetor(vetorPR_atual,grafo->tamanho);
+
+
+      somaDifPR =0;
+      for(vertice=0;vertice<grafo->tamanho;vertice++)
+      {
+        somaDifPR += fabs(vetorPR_atual[vertice] - vetorPR[vertice]);
+        vetorPR[vertice] = vetorPR_atual[vertice];
+      }
+    }while(somaDifPR >=0.1);
+
+    for(i=0;i<grafo->tamanho;i++)
+    {
+      grafo->vertices[i].score = vetorPR[i];
+    }
+    for(i=0;i<grafo->tamanho;i++)
+    {
+      printf("Posicao i %d possui page rank de %f\n",i,grafo->vertices[i].score);
     }
   }
 
-  pageRank = pageRank*dumping_factor + (1-dumping_factor); /*Multiplica a soma encontrada pelo dumping factor*/
-  return pageRank;
-}
-
-void CalculaPageRank(Grafo*grafo,float dumping_factor)
-{
-  /* Função que irá calcular o Page Rank de todos os vértices com o auxílio
-  da função auxiliar e irá normalizar os resultados até atingirem a condição
-  de parada somaDifPR <=0.1 */
-  int i,vertice;
-  float *vetorPR;
-  float *vetorPR_atual;
-  vetorPR = malloc(sizeof(int)*grafo->tamanho);
-
-  vetorPR_atual = malloc(sizeof(int)*grafo->tamanho);
-
-  float *out_degree;
-  out_degree = malloc(sizeof(float)*grafo->tamanho);
-
-  out_degree = getVetorOutdegree(&(*grafo));
-
-
-  for(i=0;i<grafo->tamanho;i++)
+  int main()
   {
-    vetorPR[i] = 1-dumping_factor; //inicializa o vetor com 0
+    Grafo grafo;
+    char arquivo[] = "../data/teste.txt";
+    obtemVertices(&grafo,arquivo);
+    criaMatrizAdjacencia(&grafo,arquivo);
+    CalculaPageRank(&grafo,0.85);
+    //  imprimeTopKPageRank(&grafo,20);
   }
-  float somaDifPR =0;
-  do
-  {
-
-    for(vertice=0;vertice<grafo->tamanho;vertice++) //para cada vertice associado a linha analisada..
-    {
-      vetorPR_atual[vertice] = CalculaPageRankVertice(&(*grafo),vetorPR,out_degree,vertice,dumping_factor);
-
-    }
-
-    vetorPR_atual = normalizaVetor(vetorPR_atual,grafo->tamanho);
-
-
-    somaDifPR =0;
-    for(vertice=0;vertice<grafo->tamanho;vertice++)
-    {
-      somaDifPR += fabs(vetorPR_atual[vertice] - vetorPR[vertice]);
-      vetorPR[vertice] = vetorPR_atual[vertice];
-    }
-  }while(somaDifPR >=0.1);
-
-  for(i=0;i<grafo->tamanho;i++)
-  {
-    grafo->vertices[i].score = vetorPR[i];
-  }
-  for(i=0;i<grafo->tamanho;i++)
-  {
-    printf("Posicao i %d possui page rank de %f\n",i,grafo->vertices[i].score);
-  }
-}
-
-int main()
-{
-  Grafo grafo;
-  char arquivo[] = "../data/teste.txt";
-  obtemVertices(&grafo,arquivo);
-  criaMatrizAdjacencia(&grafo,arquivo);  
-  CalculaPageRank(&grafo,0.85);
-  //  imprimeTopKPageRank(&grafo,20);
-}

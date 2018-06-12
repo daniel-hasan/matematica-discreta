@@ -246,7 +246,7 @@ float* getVetorOutdegree(Grafo *grafo)
 
 
 
-    /*    Seu código aqui         */
+  /*    Seu código aqui         */
 
 
 
@@ -263,46 +263,46 @@ return out_degree;
 
 float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
   float out_degree[],int vertice,float dumping_factor)
-{
-
-  float pageRank=0;
-
-
-
-  /*    Seu código aqui             */
-
-
-
-
-
-  return pageRank;
-}
-
-void CalculaPageRank(Grafo*grafo,float dumping_factor)
-{
-  float somaDifPR =0;
-
-  float *out_degree;
-  out_degree = malloc(sizeof(float)*grafo->tamanho);
-
-  /*        Seu código aqui         */
-
-
-
-
-
-  do
   {
 
+    float pageRank=0;
+
+
+
+    /*    Seu código aqui             */
 
 
 
 
-  }while(somaDifPR >=0.1);
 
+    return pageRank;
+  }
 
-  /*for(i=0;i<grafo->tamanho;i++)
+  void CalculaPageRank(Grafo*grafo,float dumping_factor)
   {
+    float somaDifPR =0;
+
+    float *out_degree;
+    out_degree = malloc(sizeof(float)*grafo->tamanho);
+
+    /*        Seu código aqui         */
+
+
+
+
+
+    do
+    {
+
+
+
+
+
+    }while(somaDifPR >=0.1);
+
+
+    /*for(i=0;i<grafo->tamanho;i++)
+    {
     printf("Posicao i %d possui page rank de %f\n",i,grafo->vertices[i].score);
   }*/
 }
@@ -317,11 +317,11 @@ int main()
   /* Testa a getVetorOutdegree*/
   float *out_degree = malloc(sizeof(float)*grafo.tamanho);
   out_degree = getVetorOutdegree(&grafo);
+  
   /* Testa a CalculaPageRankVertice*/
   float *pagerank = malloc(sizeof(float)*grafo.tamanho);
-//  CalculaPageRankVertice(&grafo,page_rank,out_degree[],vertice,dumping_factor);
+  //  CalculaPageRankVertice(&grafo,page_rank,out_degree[],vertice,dumping_factor);
 
-
-  CalculaPageRank(&grafo,0.85);
+    CalculaPageRank(&grafo,0.85);
   //  imprimeTopKPageRank(&grafo,20);
 }
