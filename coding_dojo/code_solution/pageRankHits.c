@@ -180,6 +180,7 @@ void obtemVertices(Grafo* grafo,char arquivo[])
   }
 
   fclose(arq);
+  free(nome_vertices);
 }
 
 void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
@@ -340,6 +341,9 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
     {
       printf("Posicao i %d possui page rank de %f\n",i,grafo->vertices[i].score);
     }
+    free(vetorPR);
+    free(vetorPR_atual);
+    free(out_degree);
   }
 
   int main()
