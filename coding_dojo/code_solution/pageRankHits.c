@@ -321,13 +321,13 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
         vetorPR_atual[vertice] = CalculaPageRankVertice(&(*grafo),vetorPR,out_degree,vertice,dumping_factor);
 
       }
-
-      vetorPR_atual = normalizaVetor(vetorPR_atual,grafo->tamanho);
-
 for(i=0;i<grafo->tamanho;i++)
     {
       printf("Posicao i %d possui page rank (nao normalizado) de %f\n",i,vetorPR_atual[i]);
     }
+      vetorPR_atual = normalizaVetor(vetorPR_atual,grafo->tamanho);
+
+
 
       somaDifPR =0;
       for(vertice=0;vertice<grafo->tamanho;vertice++)
