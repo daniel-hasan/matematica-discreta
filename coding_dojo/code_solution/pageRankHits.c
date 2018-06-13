@@ -126,7 +126,7 @@ void obtemVertices(Grafo* grafo,char arquivo[])
 
   /* Declaração de uma matriz de strings que armazena um vértice V em cada posição*/
   char **nome_vertices;
-  nome_vertices = Aloca(70000, 400); /*suporta até 100 caracteres por vértice e 400 vértices*/
+  nome_vertices = Aloca(7000, 400); /*suporta até 100 caracteres por vértice e 400 vértices*/
 
   /*Declaração de vetor auxiliar */
   char vertices_auxiliar[2][400];
@@ -185,7 +185,7 @@ void obtemVertices(Grafo* grafo,char arquivo[])
 void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 {
   /* Função que retorna uma matriz com 0s e 1s. Caso o vértice A incida o vértice B, a aresta é 1 */
-  char palavra[100];
+  char palavra[400];
   char *palavra1;
   char *palavra2;
   char * aux;
@@ -198,7 +198,7 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
     return;
   }
 
-  nome_vertices = Aloca(70000,400);
+  nome_vertices = Aloca(7000,400);
   for(i=0;i<grafo->tamanho;i++)
   {
     nome_vertices[i]= grafo->vertices[i].nome;//Preenche o vetor auxiliar
@@ -312,6 +312,7 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
       vetorPR[i] = 1-dumping_factor; //inicializa o vetor com 0
     }
     float somaDifPR =0;
+    int count =0;
     do
     {
 
@@ -323,6 +324,10 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
 
       vetorPR_atual = normalizaVetor(vetorPR_atual,grafo->tamanho);
 
+for(i=0;i<grafo->tamanho;i++)
+    {
+      printf("Posicao i %d possui page rank (nao normalizado) de %f\n",i,vetorPR_atual[i]);
+    }
 
       somaDifPR =0;
       for(vertice=0;vertice<grafo->tamanho;vertice++)
@@ -330,16 +335,19 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
         somaDifPR += fabs(vetorPR_atual[vertice] - vetorPR[vertice]);
         vetorPR[vertice] = vetorPR_atual[vertice];
       }
+	count++;
+	printf("Iteração #%d soma da dif: %f",count,somaDifPR);
     }while(somaDifPR >=0.1);
 
     for(i=0;i<grafo->tamanho;i++)
     {
       grafo->vertices[i].score = vetorPR[i];
     }
-    for(i=0;i<grafo->tamanho;i++)
+
+    /*for(i=0;i<grafo->tamanho;i++)
     {
       printf("Posicao i %d possui page rank de %f\n",i,grafo->vertices[i].score);
-    }
+    }*/
   }
 
   int main()
@@ -349,5 +357,5 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
     obtemVertices(&grafo,arquivo);
     criaMatrizAdjacencia(&grafo,arquivo);
     CalculaPageRank(&grafo,0.85);
-    //  imprimeTopKPageRank(&grafo,20);
+    imprimeTopKPageRank(&grafo,20);
   }
