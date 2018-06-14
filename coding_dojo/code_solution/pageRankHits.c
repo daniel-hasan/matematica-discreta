@@ -244,7 +244,8 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 
 int* getVetorOutdegree(Grafo *grafo)
 {
-  /* Função que irá calcular o grau de saída de todos os vértices do grafo*/
+  /* Função que irá calcular o grau de saída de
+  todos os vértices do grafo*/
   int *out_degree;
   out_degree = malloc(sizeof(int)*grafo->tamanho);
   int i,j;
@@ -270,10 +271,11 @@ int* getVetorOutdegree(Grafo *grafo)
 return out_degree;
 }
 
-float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
-  int out_degree[],int vertice,float dumping_factor)
+float CalculaPageRankVertice(Grafo *grafo,float*page_rank,
+  int*out_degree,int vertice,float dumping_factor)
   {
-    /* Função auxiliar ao CalculaPageRank que irá calcular o Page Rank para cada vértice */
+    /* Função auxiliar ao CalculaPageRank que irá
+    calcular o Page Rank para cada vértice */
     int i;
     float pageRank=0;
 
@@ -281,7 +283,8 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
     {
       if(grafo->matrizadj[i][vertice]==1)
       {
-        pageRank += page_rank[i]/(float)out_degree[i]; /*Soma o pagerank de cada vértice
+        pageRank += page_rank[i]/(float)out_degree[i]; /*Soma o
+        pagerank de cada vértice
         e divide pelo out degre */
       }
     }
@@ -292,8 +295,9 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
 
   void CalculaPageRank(Grafo*grafo,float dumping_factor)
   {
-    /* Função que irá calcular o Page Rank de todos os vértices com o auxílio
-    da função auxiliar e irá normalizar os resultados até atingirem a condição
+    /* Função que irá calcular o Page Rank de todos os vértices
+     com o auxílio da função auxiliar e irá normalizar os
+    resultados até atingirem a condição
     de parada somaDifPR <=0.1 */
     int i,vertice;
     float *vetorPR;
@@ -352,7 +356,7 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
     char arquivo[] = "../data/grafo_mini.txt";
     obtemVertices(&grafo,arquivo);
     criaMatrizAdjacencia(&grafo,arquivo);
-    
+
     /* Parte de teste destinada aos alunos
     // Testa a getVetorOutdegree
     float *out_degree = malloc(sizeof(float)*grafo.tamanho);
