@@ -369,7 +369,7 @@ int main()
   criaMatrizAdjacencia(&grafo,arquivo);
 
   /* Testa a getVetorOutdegree*/
-  float *out_degree = malloc(sizeof(float)*grafo.tamanho);
+  int *out_degree = malloc(sizeof(int)*grafo.tamanho);
   out_degree = getVetorOutdegree(&grafo);
 
   /* Testa a CalculaPageRankVertice*/
