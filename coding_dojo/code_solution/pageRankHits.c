@@ -242,11 +242,11 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
   fclose(arq);
 }
 
-float* getVetorOutdegree(Grafo *grafo)
+int* getVetorOutdegree(Grafo *grafo)
 {
   /* Função que irá calcular o grau de saída de todos os vértices do grafo*/
-  float *out_degree;
-  out_degree = malloc(sizeof(float)*grafo->tamanho);
+  int *out_degree;
+  out_degree = malloc(sizeof(int)*grafo->tamanho);
   int i,j;
   int saida=0;
   for(i=0;i<grafo->tamanho;i++)
@@ -271,7 +271,7 @@ return out_degree;
 }
 
 float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
-  float out_degree[],int vertice,float dumping_factor)
+  int out_degree[],int vertice,float dumping_factor)
   {
     /* Função auxiliar ao CalculaPageRank que irá calcular o Page Rank para cada vértice */
     int i;
@@ -281,7 +281,7 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
     {
       if(grafo->matrizadj[i][vertice]==1)
       {
-        pageRank += page_rank[i]/out_degree[i]; /*Soma o pagerank de cada vértice
+        pageRank += page_rank[i]/(float)out_degree[i]; /*Soma o pagerank de cada vértice
         e divide pelo out degre */
       }
     }
@@ -302,8 +302,8 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
 
     vetorPR_atual = malloc(sizeof(int)*grafo->tamanho);
 
-    float *out_degree;
-    out_degree = malloc(sizeof(float)*grafo->tamanho);
+    int *out_degree;
+    out_degree = malloc(sizeof(int)*grafo->tamanho);
 
     out_degree = getVetorOutdegree(&(*grafo));
 
@@ -349,9 +349,20 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
   int main()
   {
     Grafo grafo;
-    char arquivo[] = "../data/teste.txt";
+    char arquivo[] = "../data/grafo_mini.txt";
     obtemVertices(&grafo,arquivo);
     criaMatrizAdjacencia(&grafo,arquivo);
+    
+    /* Parte de teste destinada aos alunos
+    // Testa a getVetorOutdegree
+    float *out_degree = malloc(sizeof(float)*grafo.tamanho);
+    out_degree = getVetorOutdegree(&grafo);
+
+    // Testa a CalculaPageRankVertice
+    float *pagerank = malloc(sizeof(float)*grafo.tamanho);
+    CalculaPageRankVertice(&grafo,page_rank,out_degree[],vertice,dumping_factor);
+    */
+
     CalculaPageRank(&grafo,0.85);
     //  imprimeTopKPageRank(&grafo,20);
   }

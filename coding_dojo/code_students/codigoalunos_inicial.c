@@ -178,6 +178,7 @@ void obtemVertices(Grafo* grafo,char arquivo[])
   }
 
   fclose(arq);
+  free(nome_vertices);
 }
 
 void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
@@ -239,10 +240,10 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
   fclose(arq);
 }
 
-float* getVetorOutdegree(Grafo *grafo)
+int* getVetorOutdegree(Grafo *grafo)
 {
-  float *out_degree;
-  out_degree = malloc(sizeof(float)*grafo->tamanho);
+  int *out_degree;
+  out_degree = malloc(sizeof(int)*grafo->tamanho);
 
 
 
@@ -262,7 +263,7 @@ return out_degree;
 }
 
 float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
-  float out_degree[],int vertice,float dumping_factor)
+  int out_degree[],int vertice,float dumping_factor)
   {
 
     float pageRank=0;
@@ -282,8 +283,14 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
   {
     float somaDifPR =0;
 
-    float *out_degree;
-    out_degree = malloc(sizeof(float)*grafo->tamanho);
+    float *vetorPR;
+    vetorPR = malloc(sizeof(int)*grafo->tamanho);
+
+    float *vetorPR_atual;
+    vetorPR_atual = malloc(sizeof(int)*grafo->tamanho);
+
+    int *out_degree;
+    out_degree = malloc(sizeof(int)*grafo->tamanho);
 
     /*        Seu código aqui         */
 
@@ -305,6 +312,9 @@ float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
     {
     printf("Posicao i %d possui page rank de %f\n",i,grafo->vertices[i].score);
   }*/
+  free(vetorPR);
+  free(vetorPR_atual);
+  free(out_degree);
 }
 
 int main()
@@ -317,11 +327,11 @@ int main()
   /* Testa a getVetorOutdegree*/
   float *out_degree = malloc(sizeof(float)*grafo.tamanho);
   out_degree = getVetorOutdegree(&grafo);
-  
+
   /* Testa a CalculaPageRankVertice*/
   float *pagerank = malloc(sizeof(float)*grafo.tamanho);
   //  CalculaPageRankVertice(&grafo,page_rank,out_degree[],vertice,dumping_factor);
 
-    CalculaPageRank(&grafo,0.85);
+  CalculaPageRank(&grafo,0.85);
   //  imprimeTopKPageRank(&grafo,20);
 }
