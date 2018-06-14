@@ -109,8 +109,9 @@ void imprimeTopKPageRank(Grafo *grafo,int k)
 
 void obtemVertices(Grafo* grafo,char arquivo[])
 {
-  /* Função que retorna um vetor de string que irá obter os vértices do arquivo passado por parâmetro*/
-  /*variáveis  auxiliares*/
+  /* Função que retorna um vetor de string
+  que irá obter os vértices do arquivo passado
+  por parâmetro*/
   Vertice *vertices;
   char palavra[100];
   char *palavra1;
@@ -124,9 +125,11 @@ void obtemVertices(Grafo* grafo,char arquivo[])
     return;
   }
 
-  /* Declaração de uma matriz de strings que armazena um vértice V em cada posição*/
+  /* Declaração de uma matriz de strings
+  que armazena um vértice V em cada posição*/
   char **nome_vertices;
-  nome_vertices = Aloca(1000, 100); /*suporta até 100 caracteres por vértice e 400 vértices*/
+  nome_vertices = Aloca(1000, 100); /*suporta até
+  100 caracteres por vértice e 1000 vértices*/
 
   /*Declaração de vetor auxiliar */
   char vertices_auxiliar[2][100];
@@ -135,9 +138,13 @@ void obtemVertices(Grafo* grafo,char arquivo[])
 
   while(!feof(arq)) /*Enquanto não encontrar o fim do arquivo..*/
   {
-    fgets(palavra,100, arq);  /*Pega a linha inteira e armazena na string auxiliar nome*/
-    /*Para dividir a string utilizei a função strtok da biblioteca string.h utilizando a
-    vírgula como primeiro delimitador e o NULL como segundo delimitador*/
+    fgets(palavra,100, arq);  /*Pega a linha inteira
+    e armazena na string auxiliar nome*/
+
+    /*Para dividir a string utilizei
+    a função strtok da biblioteca string.h
+    utilizando a vírgula como primeiro
+    delimitador e o NULL como segundo delimitador*/
     aux = strtok (palavra,",");
     palavra1 = aux;
     while (aux != NULL)
@@ -221,6 +228,7 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
     strtok da biblioteca string.h utilizando a
     vírgula como primeiro delimitador e o NULL
     como segundo delimitador*/
+
     aux = strtok (palavra,",");
     palavra1 = aux;
     while (aux != NULL)
@@ -228,6 +236,7 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
       palavra2 = aux;
       aux = strtok (NULL, ",");
     }
+
     /*retira a parte null da segunda palavra
     decorrente do strtok*/
     palavra2= strtok(palavra2,"\n");
@@ -334,7 +343,7 @@ float CalculaPageRankVertice(Grafo *grafo,float* page_rank,
 
 
 
-          /*        Seu código aqui         */
+      /*        Seu código aqui         */
 
 
 

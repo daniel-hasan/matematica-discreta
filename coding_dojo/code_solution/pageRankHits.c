@@ -109,8 +109,10 @@ void imprimeTopKPageRank(Grafo *grafo,int k)
 
 void obtemVertices(Grafo* grafo,char arquivo[])
 {
-  /* Função que retorna um vetor de string que irá obter os vértices do arquivo passado por parâmetro*/
-  /*variáveis  auxiliares*/
+  /* Função que retorna um vetor de string
+  que irá obter os vértices do arquivo passado
+  por parâmetro*/
+
   Vertice *vertices;
   char palavra[400];
   char *palavra1;
@@ -124,20 +126,29 @@ void obtemVertices(Grafo* grafo,char arquivo[])
     return;
   }
 
-  /* Declaração de uma matriz de strings que armazena um vértice V em cada posição*/
+  /* Declaração de uma matriz de strings
+  que armazena um vértice V em cada posição*/
   char **nome_vertices;
-  nome_vertices = Aloca(70000, 400); /*suporta até 100 caracteres por vértice e 400 vértices*/
+  nome_vertices = Aloca(70000, 400); /*suporta até 100
+   caracteres por vértice e 70000 vértices*/
 
   /*Declaração de vetor auxiliar */
   char vertices_auxiliar[2][400];
 
   /* Leitura: Se A ganhou de B, há uma aresta de B para A*/
   int linha = 0;
-  while(!feof(arq)) /*Enquanto não encontrar o fim do arquivo..*/
+  while(!feof(arq)) /*Enquanto não ]
+  encontrar o fim do arquivo..*/
+
   {
-    fgets(palavra,400, arq);  /*Pega a linha inteira e armazena na string auxiliar nome*/
-    /*Para dividir a string utilizei a função strtok da biblioteca string.h utilizando a
-    vírgula como primeiro delimitador e o NULL como segundo delimitador*/
+    fgets(palavra,400, arq);  /*Pega a
+    linha inteira e armazena na string auxiliar nome*/
+
+    /*Para dividir a string utilizei
+    a função strtok da biblioteca string.h
+    utilizando a vírgula como primeiro
+    delimitador e o NULL como segundo delimitador*/
+
     aux = strtok (palavra,",");
     palavra1 = aux;
     while (aux != NULL)
@@ -145,8 +156,10 @@ void obtemVertices(Grafo* grafo,char arquivo[])
       palavra2 = aux;
       aux = strtok (NULL, ",");
     }
-    /*Retira a parte null da segunda palavra decorrente do strtok*/
+    /*Retira a parte null da segunda
+    palavra decorrente do strtok*/
     palavra2= strtok(palavra2,"\n");
+
     /*Grava as palavras em um vetor auxiliar*/
     sprintf(vertices_auxiliar[0], "%s" ,palavra1);
     sprintf(vertices_auxiliar[1], "%s" ,palavra2);
@@ -185,7 +198,9 @@ void obtemVertices(Grafo* grafo,char arquivo[])
 
 void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 {
-  /* Função que retorna uma matriz com 0s e 1s. Caso o vértice A incida o vértice B, a aresta é 1 */
+  /* Função que retorna uma matriz
+  com 0s e 1s. Caso o vértice A incida o
+  vértice B, a aresta é 1 */
   char palavra[100];
   char *palavra1;
   char *palavra2;
@@ -215,12 +230,15 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 
   /*Leremos o arquivo novamente para
   estabelecer as arestas */
-  
+
   while(fgets(palavra,400, arq)!=NULL) /*Enquanto não
   encontrar o fim do arquivo..*/
   {
-    /*Para dividir a string utilizei a função strtok da biblioteca string.h utilizando a
-    vírgula como primeiro delimitador e o NULL como segundo delimitador*/
+    /*Para dividir a string utilizei a função
+    strtok da biblioteca string.h utilizando a
+    vírgula como primeiro delimitador e o
+    NULL como segundo delimitador*/
+    
     aux = strtok (palavra,",");
     palavra1 = aux;
     while (aux != NULL)
