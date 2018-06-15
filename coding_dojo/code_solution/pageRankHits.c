@@ -274,7 +274,7 @@ int* getVetorOutdegree(Grafo *grafo)
 {
   /* Gera, para cada vértice, o seu grau de saída
   (ou seja, o número de arestas adjacentes).
-  Armazena todos no vetor vetorSaida.
+  Armazena todos no vetor out_degree.
   Em que out_degree[v] é o grau de saída do
   vértice v. */
   int *out_degree;
