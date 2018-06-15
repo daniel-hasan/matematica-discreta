@@ -109,9 +109,10 @@ void imprimeTopKPageRank(Grafo *grafo,int k)
 
 void obtemVertices(Grafo* grafo,char arquivo[])
 {
-  /* Função que retorna um vetor de string
-  que irá obter os vértices do arquivo passado
-  por parâmetro*/
+  /* Função que cria um vetor de string que
+  irá obter os vértices do arquivo passado por
+  parâmetro e ao final, irá alterar o Grafo*/
+  
   Vertice *vertices;
   char palavra[100];
   char *palavra1;
@@ -190,7 +191,7 @@ void obtemVertices(Grafo* grafo,char arquivo[])
 
 void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 {
-  /* Função que cria uma matriz com 0s 
+  /* Função que cria uma matriz com 0s
   e 1s.
   Caso o vértice A incida o vértice B,
   a aresta é 1.
