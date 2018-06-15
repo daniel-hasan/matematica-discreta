@@ -130,7 +130,7 @@ void obtemVertices(Grafo* grafo,char arquivo[])
   que armazena um vértice V em cada posição*/
   char **nome_vertices;
   nome_vertices = Aloca(70000, 400); /*suporta até 100
-   caracteres por vértice e 70000 vértices*/
+  caracteres por vértice e 70000 vértices*/
 
   /*Declaração de vetor auxiliar */
   char vertices_auxiliar[2][400];
@@ -238,7 +238,7 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
     strtok da biblioteca string.h utilizando a
     vírgula como primeiro delimitador e o
     NULL como segundo delimitador*/
-    
+
     aux = strtok (palavra,",");
     palavra1 = aux;
     while (aux != NULL)
@@ -272,8 +272,11 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 
 int* getVetorOutdegree(Grafo *grafo)
 {
-  /* Função que irá calcular o grau de saída de
-  todos os vértices do grafo*/
+  /* Gera, para cada vértice, o seu grau de saída
+  (ou seja, o número de arestas adjacentes).
+  Armazena todos no vetor vetorSaida.
+  Em que out_degree[v] é o grau de saída do
+  vértice v. */
   int *out_degree;
   out_degree = malloc(sizeof(int)*grafo->tamanho);
   int i,j;
@@ -293,7 +296,7 @@ int* getVetorOutdegree(Grafo *grafo)
 
   /*  for(i=0;i<grafo->tamanho;i++)
   {
-  printf("i: %d : %f\n",i,vetorSaida[i]);
+  printf("i: %d : %f\n",i,out_degree[i]);
 }
 */
 return out_degree;
@@ -302,8 +305,12 @@ return out_degree;
 float CalculaPageRankVertice(Grafo *grafo,float*page_rank,
   int*out_degree,int vertice,float dumping_factor)
   {
-    /* Função auxiliar ao CalculaPageRank que irá
-    calcular o Page Rank para cada vértice */
+    /*  Calcula a partir do grafo o page rank
+    do vértice passado como parametro.
+    Também são parametros:
+    page_rank[u]: o PageRank (anterior) do vértice u.
+    out_degree[u]: o grau de saída do vértice u.
+    dumping_factor: dumping factor a ser usado.ce */
     int i;
     float pageRank=0;
 

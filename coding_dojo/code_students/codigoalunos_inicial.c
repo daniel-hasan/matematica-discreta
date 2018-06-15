@@ -266,11 +266,15 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 
 int* getVetorOutdegree(Grafo *grafo)
 {
-  /* Função que irá calcular o grau de saída de
-  todos os vértices do grafo*/
+  /* Gera, para cada vértice, o seu grau de saída
+  (ou seja, o número de arestas adjacentes).
+  Armazena todos no vetor vetorSaida.
+  Em que out_degree[v] é o grau de saída do
+  vértice v*/
 
   int *out_degree;
   out_degree = malloc(sizeof(int)*grafo->tamanho);
+
 
 
 
@@ -283,7 +287,7 @@ int* getVetorOutdegree(Grafo *grafo)
 
   /*  for(i=0;i<grafo->tamanho;i++)
   {
-  printf("i: %d : %f\n",i,vetorSaida[i]);
+  printf("i: %d : %f\n",i,out_degree[i]);
 }
 */
 return out_degree;
@@ -292,8 +296,14 @@ return out_degree;
 float CalculaPageRankVertice(Grafo *grafo,float* page_rank,
   int* out_degree,int vertice,float dumping_factor)
   {
-    /* Função auxiliar ao CalculaPageRank que irá
-    calcular o Page Rank para cada vértice */
+    /*  Calcula a partir do grafo o page rank
+    do vértice passado como parametro.
+    Também são parametros:
+    page_rank[u]: o PageRank (anterior) do vértice u.
+    out_degree[u]: o grau de saída do vértice u.
+    dumping_factor: dumping factor a ser usado.
+    Armazene o resultado final na variável
+    pageRank.*/
 
     float pageRank=0;
 
@@ -304,14 +314,18 @@ float CalculaPageRankVertice(Grafo *grafo,float* page_rank,
 
 
 
+    //printf("Page Rank vertice %d , soma: %f\n",vertice,pageRank);
+
+
 
     return pageRank;
   }
 
   void CalculaPageRank(Grafo*grafo,float dumping_factor)
   {
-    /* Função que irá calcular o Page Rank de todos os vértices
-    com o auxílio da função auxiliar e irá normalizar os
+    /* Função que irá calcular o Page Rank de todos
+    os vértices com o auxílio da função
+    auxiliar e irá normalizar os
     resultados até atingirem a condição
     de parada somaDifPR <=0.1 */
 
@@ -334,11 +348,7 @@ float CalculaPageRankVertice(Grafo *grafo,float* page_rank,
 
     do
     {
-      for(i=0;i<grafo->tamanho;i++)
-      { //Imprime o pagerank a cada interação
-        printf("Iteração %d:
-        Posicao i %d possui page rank de %f\n",iteracao,i,page_rank[i])
-      }
+
 
 
 
@@ -350,24 +360,29 @@ float CalculaPageRankVertice(Grafo *grafo,float* page_rank,
 
 
 
-
-      iteracao++;
-    }while(somaDifPR >=0.1);
-
-
-    for(i=0;i<grafo->tamanho;i++)
-    {
-      grafo->vertices[i].score = vetorPR[i];
+      /*for(i=0;i<grafo->tamanho;i++)
+      { //Imprime o pagerank a cada interação
+      printf("Iteração %d:
+      Posicao i %d possui page rank de %f\n",iteracao,i,page_rank[i])
     }
+    iteracao++;*/
+  }while(somaDifPR >=0.1);
 
-    /*for(i=0;i<grafo->tamanho;i++)
-    {
-    printf("Posicao i %d possui page rank de %f\n",i,grafo->vertices[i].score);
-  }*/
 
-  free(vetorPR);
-  free(vetorPR_atual);
-  free(out_degree);
+  for(i=0;i<grafo->tamanho;i++)
+  {
+    grafo->vertices[i].score = vetorPR[i]; /*transfere os dados
+    do vetor para a stuct Grafo */
+  }
+
+  /*for(i=0;i<grafo->tamanho;i++)
+  {
+  printf("Posicao i %d possui page rank de %f\n",i,grafo->vertices[i].score);
+}*/
+
+free(vetorPR);
+free(vetorPR_atual);
+free(out_degree);
 }
 
 int main()
@@ -379,7 +394,7 @@ int main()
 
   /* Testa a getVetorOutdegree*/
   int *out_degree = malloc(sizeof(int)*grafo.tamanho);
-  out_degree = getVetorOutdegree(&grafo);
+  //out_degree = getVetorOutdegree(&grafo);
 
   /* Testa a CalculaPageRankVertice*/
   float *pagerank = malloc(sizeof(float)*grafo.tamanho);
