@@ -323,9 +323,9 @@ float CalculaPageRankVertice(Grafo *grafo,float* page_rank,
 
   void CalculaPageRank(Grafo*grafo,float dumping_factor)
   {
-    /* Função que irá calcular o Page Rank de todos
-    os vértices com o auxílio da função
-    auxiliar e irá normalizar os
+    /* Função que irá calcular o Page Rank
+    de todos os vértices com a partir
+    do CalculaPageRankVertice e irá normalizar os
     resultados até atingirem a condição
     de parada somaDifPR <=0.1 */
 
