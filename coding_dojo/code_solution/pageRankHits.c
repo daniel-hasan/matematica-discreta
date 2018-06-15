@@ -204,7 +204,7 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
   a aresta é 1.
   Ao final, altera-se o Grafo passado
   por parâmetro */
-  
+
   char palavra[400];
   char *palavra1;
   char *palavra2;
@@ -349,7 +349,7 @@ float CalculaPageRankVertice(Grafo *grafo,float*page_rank,
     int *out_degree;
     out_degree = malloc(sizeof(int)*grafo->tamanho);
 
-    out_degree = getVetorOutdegree(&(*grafo));
+    out_degree = getVetorOutdegree(grafo);
 
 
     for(i=0;i<grafo->tamanho;i++)
@@ -364,7 +364,7 @@ float CalculaPageRankVertice(Grafo *grafo,float*page_rank,
 
       for(vertice=0;vertice<grafo->tamanho;vertice++) //para cada vertice associado a linha analisada..
       {
-        vetorPR_atual[vertice] = CalculaPageRankVertice(&(*grafo),vetorPR,out_degree,vertice,dumping_factor);
+        vetorPR_atual[vertice] = CalculaPageRankVertice(grafo,vetorPR,out_degree,vertice,dumping_factor);
 
       }
 
@@ -413,7 +413,7 @@ float CalculaPageRankVertice(Grafo *grafo,float*page_rank,
   /*int *out_degree = malloc(sizeof(int)*grafo.tamanho);
   out_degree = getVetorOutdegree(&grafo);*
 
-  /* Testa a CalculaPageRankVertice 
+  /* Testa a CalculaPageRankVertice
   (você deverá descomentar a operação de obter o out-degree)*/
 /*  float page_rank[] = {0.15,0.15,0.15,0.15};
     int vertice = 1;
