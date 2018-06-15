@@ -109,8 +109,9 @@ void imprimeTopKPageRank(Grafo *grafo,int k)
 
 void obtemVertices(Grafo* grafo,char arquivo[])
 {
-  /* Função que retorna um vetor de string que irá obter os vértices do arquivo passado por parâmetro*/
-  /*variáveis  auxiliares*/
+  /* Função que retorna um vetor de string
+  que irá obter os vértices do arquivo passado
+  por parâmetro*/
   Vertice *vertices;
   char palavra[100];
   char *palavra1;
@@ -124,9 +125,11 @@ void obtemVertices(Grafo* grafo,char arquivo[])
     return;
   }
 
-  /* Declaração de uma matriz de strings que armazena um vértice V em cada posição*/
+  /* Declaração de uma matriz de strings
+  que armazena um vértice V em cada posição*/
   char **nome_vertices;
-  nome_vertices = Aloca(1000, 100); /*suporta até 100 caracteres por vértice e 400 vértices*/
+  nome_vertices = Aloca(1000, 100); /*suporta até
+  100 caracteres por vértice e 1000 vértices*/
 
   /*Declaração de vetor auxiliar */
   char vertices_auxiliar[2][100];
@@ -135,9 +138,13 @@ void obtemVertices(Grafo* grafo,char arquivo[])
 
   while(!feof(arq)) /*Enquanto não encontrar o fim do arquivo..*/
   {
-    fgets(palavra,100, arq);  /*Pega a linha inteira e armazena na string auxiliar nome*/
-    /*Para dividir a string utilizei a função strtok da biblioteca string.h utilizando a
-    vírgula como primeiro delimitador e o NULL como segundo delimitador*/
+    fgets(palavra,100, arq);  /*Pega a linha inteira
+    e armazena na string auxiliar nome*/
+
+    /*Para dividir a string utilizei
+    a função strtok da biblioteca string.h
+    utilizando a vírgula como primeiro
+    delimitador e o NULL como segundo delimitador*/
     aux = strtok (palavra,",");
     palavra1 = aux;
     while (aux != NULL)
@@ -178,11 +185,13 @@ void obtemVertices(Grafo* grafo,char arquivo[])
   }
 
   fclose(arq);
+  free(nome_vertices);
 }
 
 void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 {
-  /* Função que retorna uma matriz com 0s e 1s. Caso o vértice A incida o vértice B, a aresta é 1 */
+  /* Função que retorna uma matriz com 0s e 1s.
+  Caso o vértice A incida o vértice B, a aresta é 1 */
   char palavra[100];
   char *palavra1;
   char *palavra2;
@@ -199,18 +208,27 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
   nome_vertices = Aloca(1000,100);
   for(i=0;i<grafo->tamanho;i++)
   {
-    nome_vertices[i]= grafo->vertices[i].nome;//Preenche o vetor auxiliar
+    nome_vertices[i]= grafo->vertices[i].nome;/*Preenche o
+    vetor auxiliar*/
   }
 
-  /* Declaração da Matriz de Adjacencia, contendo 0 ou 1 se houve arestas*/
+  /* Declaração da Matriz de Adjacencia,
+  contendo 0 ou 1 se houve arestas*/
   int **matrizadj;
-  /* Com base no número de elementos, criaremos uma matriz de Adjacencia para as arestas */
+
+  /* Com base no número de elementos, criaremos
+  uma matriz de Adjacencia para as arestas */
   matrizadj= Aloca(grafo->tamanho,grafo->tamanho);
+
   /*Leremos o arquivo novamente para estabelecer as arestas */
-  while(fgets(palavra,100, arq)!=NULL) /*Enquanto não encontrar o fim do arquivo..*/
+  while(fgets(palavra,100, arq)!=NULL) /*Enquanto não
+  encontrar o fim do arquivo..*/
   {
-    /*Para dividir a string utilizei a função strtok da biblioteca string.h utilizando a
-    vírgula como primeiro delimitador e o NULL como segundo delimitador*/
+    /*Para dividir a string utilizei a função
+    strtok da biblioteca string.h utilizando a
+    vírgula como primeiro delimitador e o NULL
+    como segundo delimitador*/
+
     aux = strtok (palavra,",");
     palavra1 = aux;
     while (aux != NULL)
@@ -218,12 +236,19 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
       palavra2 = aux;
       aux = strtok (NULL, ",");
     }
-    /*retira a parte null da segunda palavra decorrente do strtok*/
+
+    /*retira a parte null da segunda palavra
+    decorrente do strtok*/
     palavra2= strtok(palavra2,"\n");
 
-    /* Encontraremos a posição da primeira palavra lida no vetor de vértices e relacionaremos
-    essa posição com a posição da matriz i. Após ler a segunda palavra, faremos a relação entre a
-    posição j da segunda palavra e a primeira palavra, atribuindo 1 para a aresta i,j lida*/
+    /* Encontraremos a posição da primeira
+    palavra lida no vetor de vértices e
+    relacionaremos essa posição com a
+    posição da matriz i. Após ler a segunda
+    palavra, faremos a relação entre a
+    posição j da segunda palavra e a
+    primeira palavra, atribuindo 1 para a
+    aresta i,j lida*/
 
     /*Procura a palavra no vetor de vértices nome_vertices*/
     char * found = (char *) bsearch(palavra1, nome_vertices, grafo->tamanho, sizeof(char *), myStrCmp);
@@ -239,13 +264,17 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
   fclose(arq);
 }
 
-float* getVetorOutdegree(Grafo *grafo)
+int* getVetorOutdegree(Grafo *grafo)
 {
+  /* Função que irá calcular o grau de saída de
+  todos os vértices do grafo*/
+
+  int *out_degree;
+  out_degree = malloc(sizeof(int)*grafo->tamanho);
 
 
 
-
-    /*    Seu código aqui         */
+  /*    Seu código aqui         */
 
 
 
@@ -257,53 +286,88 @@ float* getVetorOutdegree(Grafo *grafo)
   printf("i: %d : %f\n",i,vetorSaida[i]);
 }
 */
-return vetorSaida;
+return out_degree;
 }
 
-float CalculaPageRankVertice(Grafo *grafo,float page_rank[],
-  float out_degree[],int vertice,float dumping_factor)
-{
-  float soma=0;
-
-
-
-  /*    Seu código aqui             */
-
-
-
-
-
-
-  return soma;
-}
-
-void CalculaPageRank(Grafo*grafo,float dumping_factor)
-{
-  float somaDifPR =0;
-
-  float *out_degree;
-  out_degree = malloc(sizeof(float)*grafo->tamanho);
-
-  /*        Seu código aqui         */
-
-
-
-
-
-  do
+float CalculaPageRankVertice(Grafo *grafo,float* page_rank,
+  int* out_degree,int vertice,float dumping_factor)
   {
+    /* Função auxiliar ao CalculaPageRank que irá
+    calcular o Page Rank para cada vértice */
+
+    float pageRank=0;
+
+
+
+    /*    Seu código aqui             */
 
 
 
 
 
-  }while(somaDifPR >=0.1);
+    return pageRank;
+  }
 
-
-  /*for(i=0;i<grafo->tamanho;i++)
+  void CalculaPageRank(Grafo*grafo,float dumping_factor)
   {
+    /* Função que irá calcular o Page Rank de todos os vértices
+    com o auxílio da função auxiliar e irá normalizar os
+    resultados até atingirem a condição
+    de parada somaDifPR <=0.1 */
+
+    float somaDifPR =0;
+    int iteracao=1;
+    float *vetorPR;
+    vetorPR = malloc(sizeof(int)*grafo->tamanho);
+
+    float *vetorPR_atual;
+    vetorPR_atual = malloc(sizeof(int)*grafo->tamanho);
+
+    int *out_degree;
+    out_degree = malloc(sizeof(int)*grafo->tamanho);
+
+    /*        Seu código aqui         */
+
+
+
+
+
+    do
+    {
+      for(i=0;i<grafo->tamanho;i++)
+      { //Imprime o pagerank a cada interação
+        printf("Iteração %d:
+        Posicao i %d possui page rank de %f\n",iteracao,i,page_rank[i])
+      }
+
+
+
+
+      /*        Seu código aqui         */
+
+
+
+
+
+
+
+      iteracao++;
+    }while(somaDifPR >=0.1);
+
+
+    for(i=0;i<grafo->tamanho;i++)
+    {
+      grafo->vertices[i].score = vetorPR[i];
+    }
+
+    /*for(i=0;i<grafo->tamanho;i++)
+    {
     printf("Posicao i %d possui page rank de %f\n",i,grafo->vertices[i].score);
   }*/
+
+  free(vetorPR);
+  free(vetorPR_atual);
+  free(out_degree);
 }
 
 int main()
@@ -312,6 +376,15 @@ int main()
   char arquivo[] = "grafo.txt";
   obtemVertices(&grafo,arquivo);
   criaMatrizAdjacencia(&grafo,arquivo);
+
+  /* Testa a getVetorOutdegree*/
+  int *out_degree = malloc(sizeof(int)*grafo.tamanho);
+  out_degree = getVetorOutdegree(&grafo);
+
+  /* Testa a CalculaPageRankVertice*/
+  float *pagerank = malloc(sizeof(float)*grafo.tamanho);
+  //CalculaPageRankVertice(&grafo,page_rank,out_degree,vertice,dumping_factor);
+
   CalculaPageRank(&grafo,0.85);
   //  imprimeTopKPageRank(&grafo,20);
 }
