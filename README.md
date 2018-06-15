@@ -1,7 +1,7 @@
 # Calculo do Page Rank
 # Funções importantes prontas:
 # 1) float* normalizaVetor(float* vetor,int numero_vertices)
-Irá normalizar o vetor passado como parâmetro
+Irá normalizar o `vetor` passado como parâmetro
 e retornará o mesmo normalizado.
 
 # 2) Vertice* ordenaBubbleSort(Vertice *vertice, int tamanho)*
@@ -11,7 +11,7 @@ vértices passado como parâmetro
 
 # 3) imprimeTopKPageRank(Grafo *grafo,int k)*
 
-Chama a função BubbleSort para ordenar os Page Ranks do
+Chama a função `ordenaBubbleSort` para ordenar os Page Ranks do
 maior para o menor
 
 # 4) void obtemVertices(Grafo* grafo,char arquivo[])
