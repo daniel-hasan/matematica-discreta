@@ -185,7 +185,7 @@ int linha = 0;
 void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 {
   /* Função que retorna uma matriz com 0s e 1s. Caso o vértice A incida o vértice B, a aresta é 1 */
-  char palavra[100];
+  char palavra[400];
   char *palavra1;
   char *palavra2;
   char * aux;
@@ -197,7 +197,7 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
     printf("Erro, nao foi possivel abrir o arquivo\n");
     return;
   }
-
+  
   nome_vertices = Aloca(70000,400);
   for(i=0;i<grafo->tamanho;i++)
   {
@@ -338,7 +338,6 @@ void CalculaPageRank(Grafo*grafo,float dumping_factor)
 int main()
 {
   Grafo grafo;
-  char arquivo[] = "../data/teste.txt";
   obtemVertices(&grafo,arquivo);
   criaMatrizAdjacencia(&grafo,arquivo);
   CalculaPageRank(&grafo,0.85);
