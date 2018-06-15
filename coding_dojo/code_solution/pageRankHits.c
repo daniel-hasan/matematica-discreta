@@ -291,7 +291,6 @@ int* getVetorOutdegree(Grafo *grafo)
     {
       if(grafo->matrizadj[i][j] == 1)
       {
-	printf("imprimiu");
         saida++; //conta quantas ocorrencias saídas do vertices
       }
     }
@@ -421,7 +420,7 @@ float CalculaPageRankVertice(Grafo *grafo,float*page_rank,
   CalculaPageRankVertice(&grafo,page_rank,out_degree,vertice,0.85);*/
 
 
-/*Testa o pageRank (comente os demais testes para roda-lo*/
-	CalculaPageRank(&grafo,0.85);
-	imprimeTopKPageRank(&grafo,20);
+/*Testa o pageRank */
+	/*CalculaPageRank(&grafo,0.85);
+	imprimeTopKPageRank(&grafo,20);*/
   }
