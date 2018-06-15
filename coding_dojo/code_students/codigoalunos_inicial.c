@@ -293,7 +293,7 @@ int* getVetorOutdegree(Grafo *grafo)
 
   /*  for(i=0;i<grafo->tamanho;i++)
   {
-  printf("i: %d : %f\n",i,out_degree[i]);
+  printf("i: %d : %d\n",i,out_degree[i]);
 }
 */
 return out_degree;
@@ -393,19 +393,33 @@ free(out_degree);
 
 int main()
 {
-  Grafo grafo;
-  char arquivo[] = "grafo.txt";
-  obtemVertices(&grafo,arquivo);
-  criaMatrizAdjacencia(&grafo,arquivo);
+    Grafo grafo;
+    char arquivo[] = "../data/grafo_mini.txt";
+    obtemVertices(&grafo,arquivo);
+    criaMatrizAdjacencia(&grafo,arquivo);
+
+    /* Parte de teste destinada aos alunos
+    // Testa a getVetorOutdegree
+    int *out_degree = malloc(sizeof(int)*grafo.tamanho);
+    out_degree = getVetorOutdegree(&grafo);
+
+    // Testa a CalculaPageRankVertice
+    float *pagerank = malloc(sizeof(float)*grafo.tamanho);
+    CalculaPageRankVertice(&grafo,page_rank,out_degree[],vertice,dumping_factor);
+    */
 
   /* Testa a getVetorOutdegree*/
-  int *out_degree = malloc(sizeof(int)*grafo.tamanho);
-  //out_degree = getVetorOutdegree(&grafo);
+  /*int *out_degree = malloc(sizeof(int)*grafo.tamanho);
+  out_degree = getVetorOutdegree(&grafo);*
 
-  /* Testa a CalculaPageRankVertice*/
-  float *pagerank = malloc(sizeof(float)*grafo.tamanho);
-  //CalculaPageRankVertice(&grafo,page_rank,out_degree,vertice,dumping_factor);
+  /* Testa a CalculaPageRankVertice 
+  (você deverá descomentar a operação de obter o out-degree)*/
+/*  float page_rank[] = {0.15,0.15,0.15,0.15};
+    int vertice = 1;
+  CalculaPageRankVertice(&grafo,page_rank,out_degree,vertice,0.85);*/
 
-  CalculaPageRank(&grafo,0.85);
-  //  imprimeTopKPageRank(&grafo,20);
+
+/*Testa o pageRank (comente os demais testes para roda-lo*/
+	/*CalculaPageRank(&grafo,0.85);
+	imprimeTopKPageRank(&grafo,20);*/
 }

@@ -100,8 +100,8 @@ void imprimeTopKPageRank(Grafo *grafo,int k)
   Vertice *aux;
   int i;
   aux = ordenaBubbleSort(grafo->vertices,grafo->tamanho);
-  printf("Top %d:\n",k);
-  for(i=0;i<k;i++)
+  printf("Top %d maior score: \n",k);
+  for(i=0;i<k && i<grafo->tamanho;i++)
   {
     printf("Posicao %d. Vertice %s - Score: %f\n",i+1,aux[i].nome,aux[i].score);
   }
@@ -291,6 +291,7 @@ int* getVetorOutdegree(Grafo *grafo)
     {
       if(grafo->matrizadj[i][j] == 1)
       {
+	printf("imprimiu");
         saida++; //conta quantas ocorrencias saídas do vertices
       }
     }
@@ -298,11 +299,11 @@ int* getVetorOutdegree(Grafo *grafo)
     saida=0;
   }
 
-  /*  for(i=0;i<grafo->tamanho;i++)
+  for(i=0;i<grafo->tamanho;i++)
   {
-  printf("i: %d : %f\n",i,out_degree[i]);
+  printf("i: %d : %d\n",i,out_degree[i]);
 }
-*/
+
 return out_degree;
 }
 
@@ -329,6 +330,7 @@ float CalculaPageRankVertice(Grafo *grafo,float*page_rank,
     }
 
     pageRank = pageRank*dumping_factor + (1-dumping_factor); /*Multiplica a soma encontrada pelo dumping factor*/
+     printf("Page Rank vertice %d , soma: %f\n",vertice,pageRank);
     return pageRank;
   }
 
@@ -408,6 +410,18 @@ float CalculaPageRankVertice(Grafo *grafo,float*page_rank,
     CalculaPageRankVertice(&grafo,page_rank,out_degree[],vertice,dumping_factor);
     */
 
-    CalculaPageRank(&grafo,0.85);
-    //  imprimeTopKPageRank(&grafo,20);
+  /* Testa a getVetorOutdegree*/
+  /*int *out_degree = malloc(sizeof(int)*grafo.tamanho);
+  out_degree = getVetorOutdegree(&grafo);*
+
+  /* Testa a CalculaPageRankVertice 
+  (você deverá descomentar a operação de obter o out-degree)*/
+/*  float page_rank[] = {0.15,0.15,0.15,0.15};
+    int vertice = 1;
+  CalculaPageRankVertice(&grafo,page_rank,out_degree,vertice,0.85);*/
+
+
+/*Testa o pageRank (comente os demais testes para roda-lo*/
+	CalculaPageRank(&grafo,0.85);
+	imprimeTopKPageRank(&grafo,20);
   }
