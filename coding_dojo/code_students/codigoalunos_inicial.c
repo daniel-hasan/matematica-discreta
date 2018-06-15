@@ -268,7 +268,7 @@ int* getVetorOutdegree(Grafo *grafo)
 {
   /* Gera, para cada vértice, o seu grau de saída
   (ou seja, o número de arestas adjacentes).
-  Armazena todos no vetor vetorSaida.
+  Armazena todos no vetor out_degree.
   Em que out_degree[v] é o grau de saída do
   vértice v*/
 
@@ -299,7 +299,7 @@ float CalculaPageRankVertice(Grafo *grafo,float* page_rank,
     /*  Calcula a partir do grafo o page rank
     do vértice passado como parametro.
     Também são parametros:
-    page_rank[u]: o PageRank (anterior) do vértice u.
+    page_rank[u]: o PageRank (anterior) de cada vértice u.
     out_degree[u]: o grau de saída do vértice u.
     dumping_factor: dumping factor a ser usado.
     Armazene o resultado final na variável
