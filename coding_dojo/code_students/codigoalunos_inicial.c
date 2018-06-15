@@ -190,9 +190,13 @@ void obtemVertices(Grafo* grafo,char arquivo[])
 
 void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 {
-  /* Função que cria uma matriz com 0s e 1s.
-  Caso o vértice A incida o vértice B, a aresta é 1 */
-  
+  /* Função que cria uma matriz com 0s 
+  e 1s.
+  Caso o vértice A incida o vértice B,
+  a aresta é 1.
+  Ao final, altera-se o Grafo passado
+  por parâmetro */
+
   char palavra[100];
   char *palavra1;
   char *palavra2;
