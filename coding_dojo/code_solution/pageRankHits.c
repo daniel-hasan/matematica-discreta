@@ -109,7 +109,9 @@ void imprimeTopKPageRank(Grafo *grafo,int k)
 
 void obtemVertices(Grafo* grafo,char arquivo[])
 {
-  /* Função que retorna um vetor de string que irá obter os vértices do arquivo passado por parâmetro*/
+  /* Função que cria um vetor de string que
+  irá obter os vértices do arquivo passado por
+  parâmetro e ao final, irá alterar o Grafo*/
   /*variáveis  auxiliares*/
   Vertice *vertices;
   char palavra[400];
@@ -329,7 +331,7 @@ float CalculaPageRankVertice(Grafo *grafo,float*page_rank,
   void CalculaPageRank(Grafo*grafo,float dumping_factor)
   {
     /* Função que irá calcular o Page Rank de todos os vértices
-    com o auxílio da função auxiliar e irá normalizar os
+    com a partir do CalculaPageRankVertice e irá normalizar os
     resultados até atingirem a condição
     de parada somaDifPR <=0.1 */
     int i,vertice;
@@ -351,7 +353,7 @@ float CalculaPageRankVertice(Grafo *grafo,float*page_rank,
     }
 
     float somaDifPR =0;
-    
+
     do
     {
 
