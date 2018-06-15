@@ -211,7 +211,7 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
     printf("Erro, nao foi possivel abrir o arquivo\n");
     return;
   }
-  
+
   nome_vertices = Aloca(70000,400);
   for(i=0;i<grafo->tamanho;i++)
   {
@@ -347,9 +347,11 @@ float CalculaPageRankVertice(Grafo *grafo,float*page_rank,
 
     for(i=0;i<grafo->tamanho;i++)
     {
-      vetorPR[i] = 1-dumping_factor; //inicializa o vetor com 0
+      vetorPR[i] = 1-dumping_factor; //inicializa o vetor
     }
+
     float somaDifPR =0;
+    
     do
     {
 
