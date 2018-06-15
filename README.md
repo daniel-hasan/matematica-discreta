@@ -16,9 +16,10 @@ maior para o menor e, logo após, imprime os top `k` vértices de acordo com o P
 # 4) void obtemVertices(Grafo* grafo,char arquivo[])
 
 Lê o arquivo .txt passado como parâmetro e grava os
-vértices lidos (sem repetições) no Grafo
+vértices lidos (sem repetições) no Grafo passado como parâmetro
+
 # 5)void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])*
 
 Lê o arquivo .txt novamente e cria a matriz de adjacência
-a partir das posições de cada vértice do vetor de Vértice `vertices[]` 
-que está no grafo passado como paramtero.
+a partir das posições de cada vértice do vetor de Vértice `vertices*` 
+que está no grafo passado como parametro.
