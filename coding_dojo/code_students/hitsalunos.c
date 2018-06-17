@@ -285,16 +285,17 @@ float CalculaHubs(Grafo *grafo,float authority[],int vertice)
   int coluna;
   float hubs=0;
 
-  for(coluna=0;coluna<grafo->tamanho;coluna++)
-  {
-    if(grafo->matrizadj[vertice][coluna]==1)
 
-    // vejo o grau de saída de cada incidente em A
-    hubs+= authority[coluna];
-  }
-}
 
-return hubs;
+  /*               Seu código aqui       */
+
+
+
+
+
+
+
+  return hubs;
 }
 
 float CalculaAuthority(Grafo *grafo, float hubs[],int vertice)
@@ -302,14 +303,15 @@ float CalculaAuthority(Grafo *grafo, float hubs[],int vertice)
   int linha;
   float authority =0;
 
-  for(linha=0;linha<grafo->tamanho;linha++)
-  {
-    if(grafo->matrizadj[linha][vertice]==1)
-    {
-      // vejo o grau de entrada de cada incidente em A
-      authority+= hubs[linha];
-    }
-  }
+
+
+
+
+  /*           Seu código aqui              */
+
+
+
+
 
   return authority;
 
@@ -317,17 +319,11 @@ float CalculaAuthority(Grafo *grafo, float hubs[],int vertice)
 
 void CalculaHits(Grafo*grafo)
 {
-  int i,vertice;
+  int i;
   float *vetorHub;
   float *vetorAuthority;
   vetorHub = malloc(sizeof(float)*grafo->tamanho);
   vetorAuthority = malloc(sizeof(float)*grafo->tamanho);
-
-  for(i=0;i<grafo->tamanho;i++)
-  {
-    vetorHub[i] = 1; //inicializa o vetor com 1
-    vetorAuthority[i] = 1;  //inicializa o vetor com 1
-  }
 
   float somaHubAnterior= 0;
   float somaHub = 0;
@@ -340,37 +336,29 @@ void CalculaHits(Grafo*grafo)
 
   do
   {
-    somaHubAnterior = somaHub;
-    somaAuthorityAnterior = somaAuthority;
-    SomaAnterior = SomaAtual;
 
-    somaHub = 0;
-    somaAuthority = 0;
-    SomaAtual=0;
-    for(vertice=0;vertice<grafo->tamanho;vertice++) //para cada vertice associado a linha analisada..
-    {
-      vetorHub[vertice] = CalculaHubs(grafo,vetorAuthority,vertice);
-      somaHub += vetorHub[vertice];
-    }
-    for(vertice=0;vertice<grafo->tamanho;vertice++) //para cada vertice associado a linha analisada..
-    {
 
-      vetorAuthority[vertice] = CalculaAuthority(grafo,vetorHub,vertice);
-      somaAuthority += vetorAuthority[vertice];
 
-    }
-    vetorHub = normalizaVetor(vetorHub,grafo->tamanho);
-    vetorAuthority = normalizaVetor(vetorAuthority,grafo->tamanho);
 
-    SomaAtual = somaAuthority+somaHub;
-    SomaAnterior = somaAuthorityAnterior+somaHubAnterior;
 
-  } while(fabs(SomaAtual-SomaAnterior)>=0.1);
 
-  for(i=0;i<grafo->tamanho;i++)
+
+    /*          Seu código aqui         */
+
+
+
+
+
+
+
+
+
+  }while(fabs(SomaAtual-SomaAnterior)>=0.1);
+
+  /*for(i=0;i<grafo->tamanho;i++)
   {
     printf("Posicao %d. Hubs: %f  Authority: %f \n",i,vetorHub[i],vetorAuthority[i]);
-  }
+  }*/
 }
 
 
@@ -380,6 +368,6 @@ int main()
   char arquivo[] = "../data/grafo_mini.txt";
   obtemVertices(&grafo,arquivo);
   criaMatrizAdjacencia(&grafo,arquivo);
-  CalculaHits(&grafo);
+  //CalculaHits(&grafo);
 
 }
