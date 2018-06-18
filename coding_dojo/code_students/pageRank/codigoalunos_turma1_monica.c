@@ -78,7 +78,7 @@ void obtemVertices(Grafo* grafo,char arquivo[])
   /* Função que retorna um vetor de string que irá obter os vértices do arquivo passado por parâmetro*/
   /*variáveis  auxiliares*/
   Vertice *vertices;
-  char palavra[100];
+  char palavra[400];
   char *palavra1;
   char *palavra2;
   char * aux;
@@ -90,20 +90,26 @@ void obtemVertices(Grafo* grafo,char arquivo[])
     return;
   }
 
-  /* Declaração de uma matriz de strings que armazena um vértice V em cada posição*/
+  /* Declaração de uma matriz de strings
+  que armazena um vértice V em cada posição*/
   char **nome_vertices;
-  nome_vertices = Aloca(400, 100); /*suporta até 100 caracteres por vértice e 400 vértices*/
+  nome_vertices = Aloca(7000, 400); /*suporta até
+  100 caracteres por vértice e 1000 vértices*/
 
   /*Declaração de vetor auxiliar */
-  char vertices_auxiliar[2][100];
+  char vertices_auxiliar[2][400];
 
   /* Leitura: Se A ganhou de B, há uma aresta de B para A*/
 
   while(!feof(arq)) /*Enquanto não encontrar o fim do arquivo..*/
   {
-    fgets(palavra,100, arq);  /*Pega a linha inteira e armazena na string auxiliar nome*/
-    /*Para dividir a string utilizei a função strtok da biblioteca string.h utilizando a
-    vírgula como primeiro delimitador e o NULL como segundo delimitador*/
+    fgets(palavra,400, arq);  /*Pega a linha inteira
+    e armazena na string auxiliar nome*/
+
+    /*Para dividir a string utilizei
+    a função strtok da biblioteca string.h
+    utilizando a vírgula como primeiro
+    delimitador e o NULL como segundo delimitador*/
     aux = strtok (palavra,",");
     palavra1 = aux;
     while (aux != NULL)
@@ -144,12 +150,13 @@ void obtemVertices(Grafo* grafo,char arquivo[])
   }
 
   fclose(arq);
+  free(nome_vertices);
 }
 
 void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
 {
   /* Função que retorna uma matriz com 0s e 1s. Caso o vértice A incida o vértice B, a aresta é 1 */
-  char palavra[100];
+   char palavra[400];
   char *palavra1;
   char *palavra2;
   char * aux;
@@ -162,21 +169,30 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
     return;
   }
 
-  nome_vertices = Aloca(400,100);
+  nome_vertices = Aloca(7000,400);
   for(i=0;i<grafo->tamanho;i++)
   {
-    nome_vertices[i]= grafo->vertices[i].nome;//Preenche o vetor auxiliar
+    nome_vertices[i]= grafo->vertices[i].nome;/*Preenche o
+    vetor auxiliar*/
   }
 
-  /* Declaração da Matriz de Adjacencia, contendo 0 ou 1 se houve arestas*/
+  /* Declaração da Matriz de Adjacencia,
+  contendo 0 ou 1 se houve arestas*/
   int **matrizadj;
-  /* Com base no número de elementos, criaremos uma matriz de Adjacencia para as arestas */
+
+  /* Com base no número de elementos, criaremos
+  uma matriz de Adjacencia para as arestas */
   matrizadj= Aloca(grafo->tamanho,grafo->tamanho);
+
   /*Leremos o arquivo novamente para estabelecer as arestas */
-  while(fgets(palavra,100, arq)!=NULL) /*Enquanto não encontrar o fim do arquivo..*/
+  while(fgets(palavra,400, arq)!=NULL) /*Enquanto não
+  encontrar o fim do arquivo..*/
   {
-    /*Para dividir a string utilizei a função strtok da biblioteca string.h utilizando a
-    vírgula como primeiro delimitador e o NULL como segundo delimitador*/
+    /*Para dividir a string utilizei a função
+    strtok da biblioteca string.h utilizando a
+    vírgula como primeiro delimitador e o NULL
+    como segundo delimitador*/
+
     aux = strtok (palavra,",");
     palavra1 = aux;
     while (aux != NULL)
@@ -184,12 +200,19 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
       palavra2 = aux;
       aux = strtok (NULL, ",");
     }
-    /*retira a parte null da segunda palavra decorrente do strtok*/
+
+    /*retira a parte null da segunda palavra
+    decorrente do strtok*/
     palavra2= strtok(palavra2,"\n");
 
-    /* Encontraremos a posição da primeira palavra lida no vetor de vértices e relacionaremos
-    essa posição com a posição da matriz i. Após ler a segunda palavra, faremos a relação entre a
-    posição j da segunda palavra e a primeira palavra, atribuindo 1 para a aresta i,j lida*/
+    /* Encontraremos a posição da primeira
+    palavra lida no vetor de vértices e
+    relacionaremos essa posição com a
+    posição da matriz i. Após ler a segunda
+    palavra, faremos a relação entre a
+    posição j da segunda palavra e a
+    primeira palavra, atribuindo 1 para a
+    aresta i,j lida*/
 
     /*Procura a palavra no vetor de vértices nome_vertices*/
     char * found = (char *) bsearch(palavra1, nome_vertices, grafo->tamanho, sizeof(char *), myStrCmp);
@@ -243,66 +266,49 @@ float* getVetorOutdegree(Grafo *grafo)
 {
   float vetorSaida[grafo->tamanho];
 
-
-  /* Coloque aqui seu código */
-  int lin,col, i;
-  for(lin=0;lin<grafo->tamanho;lin++){
-    vetorSaida[lin]=0;
-    for(col=0;col<grafo->tamanho;col++){
-      vetorSaida[lin] += grafo->matrizadj[lin][col];
-
+  //feito!!
+  int i, j;
+  for(i=0; i<grafo->tamanho; i++)
+    for(j=0; j<grafo->tamanho;j++){
+      vetorSaida[i]+=grafo->matrizadj[i][j];
     }
-  }
 
   for(i=0;i<grafo->tamanho;i++)
   {
-  printf("i: %d : %f\n",i,vetorSaida[i]);
-}
-return vetorSaida;
+    printf("i: %d : %f\n",i,vetorSaida[i]);
+  }
+
+  return vetorSaida;
 
 }
-float CalculaPageRankVertice(Grafo *grafo,
-                float page_rank[],int out_degree[],
-              int vertice,float dumping_factor)
+float CalculaPageRankVertice(Grafo *grafo,float page_rank[],int out_degree[],int vertice,float dumping_factor)
 {
-
   float soma=0;
-Lista lista1;
-lista1=getVerticesIncidentes(grafo, vertice);
-
-int i;
-soma=1-dumping_factor;
-for (i=0;i<lista1.tamanho;i++){
-  soma+=dumping_factor*page_rank[lista1.vetor[i]]/out_degree[lista1.vetor[i]];
-}
-  /* Coloque seu código aqui */
-
+  int i, j;
+  Lista Aux=getVerticesIncidentes(grafo,vertice);
+  for(i=0; i<Aux.tamanho; i++){
+    soma+=(page_rank[Aux.vetor[i]])/out_degree[Aux.vetor[i]];
+  }
   printf("Page Rank vertice %d , soma: %f\n",vertice,soma);
-  return soma;
+  return (1-dumping_factor)+dumping_factor*soma;
 }
 
 void CalculaPageRank(Grafo*grafo,float dumping_factor)
 {
-
-  /*Coloque seu código aqui*/
+float page_rank[grafo->tamanho];
 int i;
-float vetorPR[grafo->tamanho];
-float out_degree[grafo->tamanho];
- float page_rank[grafo->tamanho];
-for(i=0;i<grafo->tamanho;i++)
-  page_rank[i] = 1-dumping_factor;
-  out_degree=getVetorOutdegree(grafo);
-for(i=0;i<grafo->tamanho;i++)
-{
-  vetorPR[i]=CalculaPageRankVertice(grafo,
-                  page_rank,out_degree,
-                i,dumping_factor);
+float *out=getVetorOutdegree(grafo);
+for(i=0; i<grafo->tamanho; i++){
+page_rank[i]=CalculaPageRankVertice(grafo, page_rank,getVetorOutdegree(&grafo), i, dumping_factor)
+
 }
 
-    for(int vertice=0;vertice<grafo->tamanho;vertice++)
+
+
+  /*  for(vertice=0;vertice<grafo->tamanho;vertice++)
   {
   printf("Vertice %d: PR: %f\n",vertice,vetorPR[vertice]);
-}
+}*/
 
 }
 
@@ -353,13 +359,10 @@ int main()
 {
   Grafo grafo;
   char arquivo[]="grafo.txt";
+
   obtemVertices(&grafo,arquivo);
   /*Obtem matriz de Adjacencia*/
   criaMatrizAdjacencia(&grafo,arquivo);
   getVetorOutdegree(&grafo);
-  float page_rank[4]={0.15,0.15,0.15,0.15};
-  int out_degree[4]={2,1,2,1};
-  CalculaPageRankVertice(&grafo,
-                  page_rank,out_degree,
-                1,0.15);
+  CalculaPageRankVertice(&grafo,float page_rank[],int out_degree[],int vertice,float dumping_factor);
 }
