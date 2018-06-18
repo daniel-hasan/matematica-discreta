@@ -18,8 +18,8 @@ typedef struct
 
 typedef struct
 {
-  float hubs;
-  float authority;
+  float *hubs;
+  float *authority;
 }Hits;
 
 int ** Aloca(int lin, int col){
@@ -317,22 +317,20 @@ float CalculaAuthority(Grafo *grafo, float hubs[],int vertice)
 
 }
 
-void CalculaHits(Grafo*grafo)
+Hits CalculaHits(Grafo*grafo)
 {
   int i;
   float *vetorHub;
   float *vetorAuthority;
+  float *vetorHub_atual;
+  float *vetorAuthority_atual;
   vetorHub = malloc(sizeof(float)*grafo->tamanho);
+  vetorHub_atual = malloc(sizeof(float)*grafo->tamanho);
+
   vetorAuthority = malloc(sizeof(float)*grafo->tamanho);
+  vetorAuthority_atual = malloc(sizeof(float)*grafo->tamanho);
 
-  float somaHubAnterior= 0;
-  float somaHub = 0;
-
-  float somaAuthorityAnterior = 0;
-  float somaAuthority = 0;
-
-  float SomaAtual=0;
-  float SomaAnterior=0;
+  float soma=0;
 
   do
   {
@@ -357,8 +355,9 @@ void CalculaHits(Grafo*grafo)
 
   /*for(i=0;i<grafo->tamanho;i++)
   {
-    printf("Posicao %d. Hubs: %f  Authority: %f \n",i,vetorHub[i],vetorAuthority[i]);
-  }*/
+  printf("Posicao %d. Hubs: %f  Authority: %f \n",i,vetorHub[i],vetorAuthority[i]);
+}*/
+return hits;
 }
 
 
@@ -368,6 +367,10 @@ int main()
   char arquivo[] = "../data/grafo_mini.txt";
   obtemVertices(&grafo,arquivo);
   criaMatrizAdjacencia(&grafo,arquivo);
-  //CalculaHits(&grafo);
 
+  Hits*resultado = calculaHits(&grafo);
+  atualizaScore(&grafo,resultado->hub);
+  imprimeTopK(grafo,k);
+  atualizaScore(grafo,resultado->authority);
+  imprimeTopK(grafo,k);
 }
