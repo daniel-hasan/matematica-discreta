@@ -101,16 +101,27 @@ Vertice* ordenaBubbleSort(Vertice *vertice, int tamanho)
   return verticeaux;
 }
 
-void imprimeTopKPageRank(Grafo *grafo,int k)
+
+void atualizaScore(Grafo *grafo, float *vetor)
 {
-  Vertice *aux;
   int i;
-  aux = ordenaBubbleSort(grafo->vertices,grafo->tamanho);
-  printf("Top %d maior score: \n",k);
-  for(i=0;i<k && i<grafo->tamanho;i++)
+  for(i=0;i<grafo->tamanho;i++)
   {
-    printf("Posicao %d. Vertice %s - Score: %f\n",i+1,aux[i].nome,aux[i].score);
+    grafo->vertices[i].score = vetor[i];
   }
+}
+
+
+void imprimeTopK(Grafo *grafo,int k)
+{
+	Vertice *aux;
+	int i;
+	aux = ordenaBubbleSort(grafo->vertices,grafo->tamanho);
+	printf("Top %d maior score: \n",k);
+	for(i=0;i<k && i<grafo->tamanho;i++)
+	{
+		printf("Posicao %d. Vertice %s - Score: %f\n",i+1,aux[i].nome,aux[i].score);
+	}
 }
 
 void obtemVertices(Grafo* grafo,char arquivo[])
@@ -317,9 +328,10 @@ float CalculaAuthority(Grafo *grafo, float hubs[],int vertice)
 
 }
 
-Hits CalculaHits(Grafo*grafo)
+Hits* CalculaHits(Grafo*grafo)
 {
   int i;
+  Hits* hits = malloc(sizeof(Hits));
   float *vetorHub;
   float *vetorAuthority;
   float *vetorHub_atual;
@@ -332,17 +344,13 @@ Hits CalculaHits(Grafo*grafo)
 
   float soma=0;
 
+    /*          Inicialização        */
+
+
+
   do
   {
-
-
-
-
-
-
-
-    /*          Seu código aqui         */
-
+	/*** Iterações do HITS **/
 
 
 
@@ -351,13 +359,23 @@ Hits CalculaHits(Grafo*grafo)
 
 
 
-  }while(fabs(SomaAtual-SomaAnterior)>=0.1);
 
-  /*for(i=0;i<grafo->tamanho;i++)
+
+
+
+
+
+
+  }while(soma>=0.1);
+
+  for(i=0;i<grafo->tamanho;i++)
   {
-  printf("Posicao %d. Hubs: %f  Authority: %f \n",i,vetorHub[i],vetorAuthority[i]);
-}*/
-return hits;
+    printf("Posicao %d. Hubs: %f  Authority: %f \n",i,vetorHub[i],vetorAuthority[i]);
+
+  }
+    hits->hubs = vetorHub;
+    hits->authority = vetorAuthority;
+    return hits;
 }
 
 
@@ -368,9 +386,13 @@ int main()
   obtemVertices(&grafo,arquivo);
   criaMatrizAdjacencia(&grafo,arquivo);
 
-  Hits*resultado = calculaHits(&grafo);
-  atualizaScore(&grafo,resultado->hub);
-  imprimeTopK(grafo,k);
-  atualizaScore(grafo,resultado->authority);
-  imprimeTopK(grafo,k);
+  int k=4;
+  Hits* resultado = CalculaHits(&grafo);
+  printf("HUBS - Resultado:");
+  atualizaScore(&grafo,resultado->hubs);
+  imprimeTopK(&grafo,k);
+  printf("Authority - Resultado:");
+  atualizaScore(&grafo,resultado->authority);
+  imprimeTopK(&grafo,k);
+  //  CalculaHits(&grafo);
 }
