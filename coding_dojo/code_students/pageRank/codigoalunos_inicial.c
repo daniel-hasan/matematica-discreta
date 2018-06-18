@@ -114,7 +114,7 @@ void obtemVertices(Grafo* grafo,char arquivo[])
   parâmetro e ao final, irá alterar o Grafo*/
   
   Vertice *vertices;
-  char palavra[100];
+  char palavra[400];
   char *palavra1;
   char *palavra2;
   char * aux;
@@ -129,17 +129,17 @@ void obtemVertices(Grafo* grafo,char arquivo[])
   /* Declaração de uma matriz de strings
   que armazena um vértice V em cada posição*/
   char **nome_vertices;
-  nome_vertices = Aloca(1000, 100); /*suporta até
+  nome_vertices = Aloca(7000, 400); /*suporta até
   100 caracteres por vértice e 1000 vértices*/
 
   /*Declaração de vetor auxiliar */
-  char vertices_auxiliar[2][100];
+  char vertices_auxiliar[2][400];
 
   /* Leitura: Se A ganhou de B, há uma aresta de B para A*/
 
   while(!feof(arq)) /*Enquanto não encontrar o fim do arquivo..*/
   {
-    fgets(palavra,100, arq);  /*Pega a linha inteira
+    fgets(palavra,400, arq);  /*Pega a linha inteira
     e armazena na string auxiliar nome*/
 
     /*Para dividir a string utilizei
@@ -198,7 +198,7 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
   Ao final, altera-se o Grafo passado
   por parâmetro */
 
-  char palavra[100];
+   char palavra[400];
   char *palavra1;
   char *palavra2;
   char * aux;
@@ -211,7 +211,7 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
     return;
   }
 
-  nome_vertices = Aloca(1000,100);
+  nome_vertices = Aloca(7000,400);
   for(i=0;i<grafo->tamanho;i++)
   {
     nome_vertices[i]= grafo->vertices[i].nome;/*Preenche o
@@ -227,7 +227,7 @@ void criaMatrizAdjacencia(Grafo *grafo,char arquivo[])
   matrizadj= Aloca(grafo->tamanho,grafo->tamanho);
 
   /*Leremos o arquivo novamente para estabelecer as arestas */
-  while(fgets(palavra,100, arq)!=NULL) /*Enquanto não
+  while(fgets(palavra,400, arq)!=NULL) /*Enquanto não
   encontrar o fim do arquivo..*/
   {
     /*Para dividir a string utilizei a função
