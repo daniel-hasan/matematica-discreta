@@ -18,8 +18,8 @@ typedef struct
 
 typedef struct
 {
-  float hubs;
-  float authority;
+  float *hubs;
+  float *authority;
 }Hits;
 
 int ** Aloca(int lin, int col){
@@ -101,16 +101,27 @@ Vertice* ordenaBubbleSort(Vertice *vertice, int tamanho)
   return verticeaux;
 }
 
-void imprimeTopKPageRank(Grafo *grafo,int k)
+
+void atualizaScore(Grafo *grafo, float *vetor)
 {
-  Vertice *aux;
   int i;
-  aux = ordenaBubbleSort(grafo->vertices,grafo->tamanho);
-  printf("Top %d maior score: \n",k);
-  for(i=0;i<k && i<grafo->tamanho;i++)
+  for(i=0;i<grafo->tamanho;i++)
   {
-    printf("Posicao %d. Vertice %s - Score: %f\n",i+1,aux[i].nome,aux[i].score);
+    grafo->vertices[i].score = vetor[i];
   }
+}
+
+
+void imprimeTopK(Grafo *grafo,int k)
+{
+	Vertice *aux;
+	int i;
+	aux = ordenaBubbleSort(grafo->vertices,grafo->tamanho);
+	printf("Top %d maior score: \n",k);
+	for(i=0;i<k && i<grafo->tamanho;i++)
+	{
+		printf("Posicao %d. Vertice %s - Score: %f\n",i+1,aux[i].nome,aux[i].score);
+	}
 }
 
 void obtemVertices(Grafo* grafo,char arquivo[])
@@ -317,34 +328,29 @@ float CalculaAuthority(Grafo *grafo, float hubs[],int vertice)
 
 }
 
-void CalculaHits(Grafo*grafo)
+Hits* CalculaHits(Grafo*grafo)
 {
   int i;
+  Hits* hits = malloc(sizeof(Hits));
   float *vetorHub;
   float *vetorAuthority;
+  float *vetorHub_atual;
+  float *vetorAuthority_atual;
   vetorHub = malloc(sizeof(float)*grafo->tamanho);
+  vetorHub_atual = malloc(sizeof(float)*grafo->tamanho);
+
   vetorAuthority = malloc(sizeof(float)*grafo->tamanho);
+  vetorAuthority_atual = malloc(sizeof(float)*grafo->tamanho);
 
-  float somaHubAnterior= 0;
-  float somaHub = 0;
+  float soma=0;
 
-  float somaAuthorityAnterior = 0;
-  float somaAuthority = 0;
+    /*          Inicialização        */
 
-  float SomaAtual=0;
-  float SomaAnterior=0;
+
 
   do
   {
-
-
-
-
-
-
-
-    /*          Seu código aqui         */
-
+	/*** Iterações do HITS **/
 
 
 
@@ -353,12 +359,23 @@ void CalculaHits(Grafo*grafo)
 
 
 
-  }while(fabs(SomaAtual-SomaAnterior)>=0.1);
 
-  /*for(i=0;i<grafo->tamanho;i++)
+
+
+
+
+
+
+  }while(soma>=0.1);
+
+  for(i=0;i<grafo->tamanho;i++)
   {
     printf("Posicao %d. Hubs: %f  Authority: %f \n",i,vetorHub[i],vetorAuthority[i]);
-  }*/
+
+  }
+    hits->hubs = vetorHub;
+    hits->authority = vetorAuthority;
+    return hits;
 }
 
 
@@ -368,6 +385,14 @@ int main()
   char arquivo[] = "../data/grafo_mini.txt";
   obtemVertices(&grafo,arquivo);
   criaMatrizAdjacencia(&grafo,arquivo);
-  //CalculaHits(&grafo);
 
+  int k=4;
+  Hits* resultado = CalculaHits(&grafo);
+  printf("HUBS - Resultado:");
+  atualizaScore(&grafo,resultado->hubs);
+  imprimeTopK(&grafo,k);
+  printf("Authority - Resultado:");
+  atualizaScore(&grafo,resultado->authority);
+  imprimeTopK(&grafo,k);
+  //  CalculaHits(&grafo);
 }

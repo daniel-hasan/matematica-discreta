@@ -18,8 +18,8 @@ typedef struct
 
 typedef struct
 {
-  float hubs;
-  float authority;
+  float* hubs;
+  float* authority;
 }Hits;
 
 int ** Aloca(int lin, int col){
@@ -292,7 +292,8 @@ float CalculaHubs(Grafo *grafo,float authority[],int vertice)
     // vejo o grau de saída de cada incidente em A
     hubs+= authority[coluna];
   }
-return hubs;
+
+  return hubs;
 }
 
 
@@ -312,21 +313,16 @@ float CalculaAuthority(Grafo *grafo, float hubs[],int vertice)
   }
 
   return authority;
-
 }
 
-void CalculaHits(Grafo*grafo)
+Hits* CalculaHits(Grafo*grafo)
 {
+  Hits* hits = malloc(sizeof(Hits));
   int i,vertice;
-  float *vetorHub_atual;
-  float *vetorAuthority_atual;
   float *vetorHub;
   float *vetorAuthority;
   vetorHub = malloc(sizeof(float)*grafo->tamanho);
   vetorAuthority = malloc(sizeof(float)*grafo->tamanho);
-
-  vetorHub_atual = malloc(sizeof(float)*grafo->tamanho);
-  vetorAuthority_atual = malloc(sizeof(float)*grafo->tamanho);
 
   for(i=0;i<grafo->tamanho;i++)
   {
@@ -334,48 +330,77 @@ void CalculaHits(Grafo*grafo)
     vetorAuthority[i] = 1;  //inicializa o vetor com 1
   }
 
-  float soma= 0;
+  float somaHubAnterior= 0;
+  float somaHub = 0;
 
+  float somaAuthorityAnterior = 0;
+  float somaAuthority = 0;
+
+  float SomaAtual=0;
+  float SomaAnterior=0;
 
   do
   {
-    
+    somaHubAnterior = somaHub;
+    somaAuthorityAnterior = somaAuthority;
+    SomaAnterior = SomaAtual;
+
+    somaHub = 0;
+    somaAuthority = 0;
+    SomaAtual=0;
     for(vertice=0;vertice<grafo->tamanho;vertice++) //para cada vertice associado a linha analisada..
     {
-      vetorHub_atual[vertice] = CalculaHubs(grafo,vetorAuthority,vertice);
+      vetorHub[vertice] = CalculaHubs(grafo,vetorAuthority,vertice);
+      somaHub += vetorHub[vertice];
     }
     vetorHub_atual = normalizaVetor(vetorHub_atual,grafo->tamanho);
     for(vertice=0;vertice<grafo->tamanho;vertice++) //para cada vertice associado a linha analisada..
     {
 
-      vetorAuthority_atual[vertice] = CalculaAuthority(grafo,vetorHub_atual,vertice);
-
+      vetorAuthority[vertice] = CalculaAuthority(grafo,vetorHub,vertice);
+      somaAuthority += vetorAuthority[vertice];
 
     }
-    
-    vetorAuthority_atual = normalizaVetor(vetorAuthority_atual,grafo->tamanho);
-	soma=0;
-	for(i=0;i<grafo->tamanho;i++){
-		soma += fabs(vetorAuthority_atual[i]-vetorAuthority[i])+fabs(vetorHub_atual[i]-vetorHub[i]);
-		vetorHub[i] = vetorHub_atual[i];
-		vetorAuthority[i] = vetorAuthority_atual[i];
-	}
-    printf("Iteração\n");
+    vetorHub = normalizaVetor(vetorHub,grafo->tamanho);
+    vetorAuthority = normalizaVetor(vetorAuthority,grafo->tamanho);
+
+    SomaAtual = somaAuthority+somaHub;
+    SomaAnterior = somaAuthorityAnterior+somaHubAnterior;
+
+  } while(fabs(SomaAtual-SomaAnterior)>=0.1);
+
   for(i=0;i<grafo->tamanho;i++)
   {
     printf("Posicao %d. Hubs: %f  Authority: %f \n",i,vetorHub[i],vetorAuthority[i]);
+
   }
-printf("\n\n");
+    hits->hubs = vetorHub;
+    hits->authority = vetorAuthority;
 
+  return hits;
+}
 
-  } while(soma>=0.1);
-
+void atualizaScore(Grafo *grafo, float *vetor)
+{
+  int i;
   for(i=0;i<grafo->tamanho;i++)
   {
-    printf("Posicao %d. Hubs: %f  Authority: %f \n",i,vetorHub[i],vetorAuthority[i]);
+    grafo->vertices[i].score = vetor[i];
   }
 }
 
+
+void imprimeTopK(Grafo *grafo,int k)
+{
+	Vertice *aux;
+	int i;
+	aux = ordenaBubbleSort(grafo->vertices,grafo->tamanho);
+	printf("Top %d maior score: \n",k);
+	for(i=0;i<k && i<grafo->tamanho;i++)
+	{
+		printf("Posicao %d. Vertice %s - Score: %f\n",i+1,aux[i].nome,aux[i].score);
+	}
+}
 
 int main()
 {
@@ -383,6 +408,15 @@ int main()
   char arquivo[] = "../data/grafo_mini.txt";
   obtemVertices(&grafo,arquivo);
   criaMatrizAdjacencia(&grafo,arquivo);
-  CalculaHits(&grafo);
+
+  int k=4;
+  Hits* resultado = CalculaHits(&grafo);
+  printf("HUBS - Resultado:");
+  atualizaScore(&grafo,resultado->hubs);
+  imprimeTopK(&grafo,k);
+  printf("Authoroty - Resultado:");
+  atualizaScore(&grafo,resultado->authority);
+  imprimeTopK(&grafo,k);
+  //  CalculaHits(&grafo);
 
 }
