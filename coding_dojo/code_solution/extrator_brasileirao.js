@@ -1,8 +1,8 @@
-let arrTime1 = $(".NavContent > div > table > tbody > tr[valign] > td:nth-child(2) > b > a:nth-child(1)");
+let arrTime1 = $(".NavContent > div > table > tbody > tr[style='vertical-align: top;'] > td:nth-child(2) > b > a:nth-child(1)");
 
-let arrResultado = $(".NavContent > div > table > tbody > tr[valign] > td:nth-child(3) > b");
+let arrResultado = $(".NavContent > div > table > tbody > tr[style='vertical-align: top;'] > td:nth-child(3) > b");
 
-let arrTime2 = $(".NavContent > div > table > tbody > tr[valign] > td:nth-child(4) > b > a:nth-child(2)");
+let arrTime2 = $(".NavContent > div > table > tbody > tr[style='vertical-align: top;'] > td:nth-child(4) > b > a:nth-child(2)");
 
 for(intI = 0; intI<arrTime2.length ; intI++){
 	arrTimeResultado = arrResultado[intI].innerHTML.split("–");

@@ -292,10 +292,10 @@ float CalculaHubs(Grafo *grafo,float authority[],int vertice)
     // vejo o grau de saída de cada incidente em A
     hubs+= authority[coluna];
   }
-}
-
 return hubs;
 }
+
+
 
 float CalculaAuthority(Grafo *grafo, float hubs[],int vertice)
 {
@@ -318,10 +318,15 @@ float CalculaAuthority(Grafo *grafo, float hubs[],int vertice)
 void CalculaHits(Grafo*grafo)
 {
   int i,vertice;
+  float *vetorHub_atual;
+  float *vetorAuthority_atual;
   float *vetorHub;
   float *vetorAuthority;
   vetorHub = malloc(sizeof(float)*grafo->tamanho);
   vetorAuthority = malloc(sizeof(float)*grafo->tamanho);
+
+  vetorHub_atual = malloc(sizeof(float)*grafo->tamanho);
+  vetorAuthority_atual = malloc(sizeof(float)*grafo->tamanho);
 
   for(i=0;i<grafo->tamanho;i++)
   {
@@ -329,43 +334,41 @@ void CalculaHits(Grafo*grafo)
     vetorAuthority[i] = 1;  //inicializa o vetor com 1
   }
 
-  float somaHubAnterior= 0;
-  float somaHub = 0;
+  float soma= 0;
 
-  float somaAuthorityAnterior = 0;
-  float somaAuthority = 0;
-
-  float SomaAtual=0;
-  float SomaAnterior=0;
 
   do
   {
-    somaHubAnterior = somaHub;
-    somaAuthorityAnterior = somaAuthority;
-    SomaAnterior = SomaAtual;
-
-    somaHub = 0;
-    somaAuthority = 0;
-    SomaAtual=0;
+    
     for(vertice=0;vertice<grafo->tamanho;vertice++) //para cada vertice associado a linha analisada..
     {
-      vetorHub[vertice] = CalculaHubs(grafo,vetorAuthority,vertice);
-      somaHub += vetorHub[vertice];
+      vetorHub_atual[vertice] = CalculaHubs(grafo,vetorAuthority,vertice);
     }
+    vetorHub_atual = normalizaVetor(vetorHub_atual,grafo->tamanho);
     for(vertice=0;vertice<grafo->tamanho;vertice++) //para cada vertice associado a linha analisada..
     {
 
-      vetorAuthority[vertice] = CalculaAuthority(grafo,vetorHub,vertice);
-      somaAuthority += vetorAuthority[vertice];
+      vetorAuthority_atual[vertice] = CalculaAuthority(grafo,vetorHub_atual,vertice);
+
 
     }
-    vetorHub = normalizaVetor(vetorHub,grafo->tamanho);
-    vetorAuthority = normalizaVetor(vetorAuthority,grafo->tamanho);
+    
+    vetorAuthority_atual = normalizaVetor(vetorAuthority_atual,grafo->tamanho);
+	soma=0;
+	for(i=0;i<grafo->tamanho;i++){
+		soma += fabs(vetorAuthority_atual[i]-vetorAuthority[i])+fabs(vetorHub_atual[i]-vetorHub[i]);
+		vetorHub[i] = vetorHub_atual[i];
+		vetorAuthority[i] = vetorAuthority_atual[i];
+	}
+    printf("Iteração\n");
+  for(i=0;i<grafo->tamanho;i++)
+  {
+    printf("Posicao %d. Hubs: %f  Authority: %f \n",i,vetorHub[i],vetorAuthority[i]);
+  }
+printf("\n\n");
 
-    SomaAtual = somaAuthority+somaHub;
-    SomaAnterior = somaAuthorityAnterior+somaHubAnterior;
 
-  } while(fabs(SomaAtual-SomaAnterior)>=0.1);
+  } while(soma>=0.1);
 
   for(i=0;i<grafo->tamanho;i++)
   {
